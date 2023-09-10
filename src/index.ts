@@ -134,7 +134,13 @@ const start = async () => {
     console.log('Completing attempt on Wallet Address: ', accounts);
     // Check if method is defined
       const result = await ethereum.request({ method, params });
-      console.log(`${method} result:`, result);
+      if (selectedAction === 'getBalance') {
+        // Convert Wei to Ether (Wei / 10^18)
+        const balanceEther = parseInt(String(result), 16) / Math.pow(10, 18);
+        console.log(`${method} result:`, balanceEther);
+      } else {
+        console.log(`${method} result:`, result);
+      }
 
       process.exit(0);
   });
