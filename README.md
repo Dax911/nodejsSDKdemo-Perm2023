@@ -25,7 +25,7 @@ Before you can run this demo, you need to ensure that you have the following ins
 3. Install the project dependencies:
 
    ```bash
-   npm install
+   yarn install
    ```
 
 ## Usage
@@ -33,7 +33,7 @@ Before you can run this demo, you need to ensure that you have the following ins
 1. Start the application:
 
    ```bash
-   npm start
+   yarn start
    ```
 
    The application will prompt you to select an action from a list of options using the `enquirer` library.
@@ -52,7 +52,7 @@ Before you can run this demo, you need to ensure that you have the following ins
 
 - `getAccounts`: Retrieve the user's Ethereum accounts.
 - `getChainId`: Get the current Ethereum chain ID.
-- `sendTransaction`: Send an Ethereum transaction (customize parameters as needed).
+- `signMessage`: Send an Ethereum transaction (customize parameters as needed).
 - `getBalance`: Get the balance of an Ethereum address (customize parameters as needed).
 - Other actions: You can extend the list of available actions as needed.
 

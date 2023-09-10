@@ -12,9 +12,7 @@ const optActions = async () => {
       'getChainId',
       'getNetworkId',
       'getBalance',
-      'getTransactionHistory',
       'signMessage',
-      'sendTransaction'
     ]
   });
 
@@ -99,29 +97,6 @@ const msgParams = {
   },
 };
 
-/*
-const start = async () => {
-  console.debug(`start NodeJS example`);
-
-  const accounts = await sdk.connect();
-  console.log('connect request accounts', accounts);
-
-  const ethereum = sdk.getProvider();
-
-  ethereum.on('_initialized', async () => {
-    const { method, params } = await optActions();
-
-    if (method) { // Check if method is defined
-      const result = await ethereum.request({ method, params });
-      console.log(`${method} result:`, result);
-    } else {
-      console.error("Invalid or empty method.");
-    }
-
-    console.log('DONE');
-  });
-};
-*/
 
 const start = async () => {
   console.debug(`start NodeJS example`);
@@ -141,23 +116,12 @@ const start = async () => {
     method = 'eth_accounts';
   } else if (selectedAction === 'getChainId') {
     method = 'eth_chainId';
-  } else if (selectedAction === 'sendTransaction') {
-    method = 'eth_sendTransaction';
-    // You can set the transaction parameters here
-    params = [
-      {
-        from: '0xYourSenderAddress',
-        to: '0xb8fe6d846c9b758320e9aa77172a1045cb97038c',
-        value: '0x12345', // Amount in Wei
-        gas: '0x12345' // Gas limit
-      }
-    ];
   } else if (selectedAction === 'getBalance') {
     method = 'eth_getBalance'; // Use the appropriate method for getting balance
-    params = [
-      account, // Replace with the address you want to check
-      'latest' // Replace with the block parameter
-    ];
+    params = [account[0], 'latest']; // Pass in the account address and 'latest' for the block number
+  } else if (selectedAction === 'signMessage') {
+    method = 'eth_signTypedData_v3';
+    params = [account[0], JSON.stringify(msgParams)];
   }
 
   console.log('Determined method:', method);
