@@ -136,7 +136,7 @@ const start = async () => {
       const result = await ethereum.request({ method, params });
       console.log(`${method} result:`, result);
 
-    console.log('DONE');
+      process.exit(0);
   });
 
   // Now you can use the selected action and its corresponding method and params
