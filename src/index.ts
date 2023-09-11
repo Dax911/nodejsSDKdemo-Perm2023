@@ -7,11 +7,10 @@ const optActions = async () => {
   const prompt = new AutoComplete({
     name: 'optActions',
     message: 'What do you want to do?',
-    limit: 5,
+    limit: 4,
     choices: [
       'getAccounts',
       'getChainId',
-      'getNetworkId',
       'getBalance',
       'signMessage',
     ]
@@ -147,7 +146,6 @@ const start = async () => {
   });
 
 };
-
 
 start().catch((err) => {
   console.error(err);
