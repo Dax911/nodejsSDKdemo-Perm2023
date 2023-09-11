@@ -1,12 +1,13 @@
 import { MetaMaskSDK, MetaMaskSDKOptions } from '@metamask/sdk';
 
+// Stylish user-friendly CLI prompts lib
 const { AutoComplete } = require('enquirer');
 
 const optActions = async () => {
   const prompt = new AutoComplete({
     name: 'optActions',
     message: 'What do you want to do?',
-    limit: 10,
+    limit: 5,
     choices: [
       'getAccounts',
       'getChainId',
@@ -19,8 +20,6 @@ const optActions = async () => {
   const answer = await prompt.run();
   return answer;
 };
-
-
 
 const qrcode = require('qrcode-terminal');
 
@@ -56,9 +55,6 @@ const options: MetaMaskSDKOptions = {
 };
 
 const sdk = new MetaMaskSDK(options);
-
-
-
 const msgParams = {
   types: {
     EIP712Domain: [
@@ -97,7 +93,6 @@ const msgParams = {
   },
 };
 
-
 const start = async () => {
   console.debug(`start NodeJS example`);
 
@@ -112,13 +107,14 @@ const start = async () => {
   let method = '';
   let params = [];
 
+  // Actions use the appropriate MetaMask API methods
   if (selectedAction === 'getAccounts') {
     method = 'eth_accounts';
   } else if (selectedAction === 'getChainId') {
     method = 'eth_chainId';
   } else if (selectedAction === 'getBalance') {
-    method = 'eth_getBalance'; // Use the appropriate method for getting balance
-    params = [account[0], 'latest']; // Pass in the account address and 'latest' for the block number
+    method = 'eth_getBalance';
+    params = [account[0], 'latest']; // Pass in the connected account address and 'latest' block
   } else if (selectedAction === 'signMessage') {
     method = 'eth_signTypedData_v3';
     params = [account[0], JSON.stringify(msgParams)];
@@ -128,14 +124,19 @@ const start = async () => {
   console.log('Params:', params);
 
   console.log('Now attempting ethereum.request: ', method);
+
   ethereum.on('_initialized', async () => {
+
     //const { method, params } = await optActions();
     const accounts = await sdk.connect();
     console.log('Completing attempt on Wallet Address: ', accounts);
+
     // Check if method is defined
       const result = await ethereum.request({ method, params });
+
+      // Change the result only for the getBalance method
       if (selectedAction === 'getBalance') {
-        // Convert Wei to Ether (Wei / 10^18)
+        // Convert Wei to Ether (show balance in ETH)
         const balanceEther = parseInt(String(result), 16) / Math.pow(10, 18);
         console.log(`${method} result:`, balanceEther);
       } else {
@@ -145,7 +146,6 @@ const start = async () => {
       process.exit(0);
   });
 
-  // Now you can use the selected action and its corresponding method and params
 };
 
 
